@@ -24,7 +24,7 @@ namespace API.Controllers
             return _context.Users.ToList();            
         }
 
-        [HttpGet]
+        [HttpGet("id")]
         [Route("{id}")]
         public ActionResult<AppUser> GetUser(int id)
         {
