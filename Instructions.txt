@@ -1,0 +1,9 @@
+Video 25 - CORS Support -
+Differner configurationsfor .net 6 and .net 5 in startup.cs file for cors. check both VS nad VSC projects
+-------------------------------------------------------------------------------------------------------
+Video 30 - Making HTTPS -
+Ran below commands in dotnet project. after installing ssl certificates in angular app
+dotnet dev-certs https --clean
+
+dotnet dev-certs https --trust
+-----------------------------------------------------------------------------------------------------
