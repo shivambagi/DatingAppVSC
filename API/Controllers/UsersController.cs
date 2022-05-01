@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -17,6 +18,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<AppUser>> GetUsers()
         {
             return _context.Users.ToList();            
@@ -24,6 +26,7 @@ namespace API.Controllers
 
         [HttpGet("id")]
         [Route("{id}")]
+        [Authorize]
         public ActionResult<AppUser> GetUser(int id)
         {
             return _context.Users.Find(id);            
