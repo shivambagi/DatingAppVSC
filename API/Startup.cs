@@ -13,6 +13,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
+using API.Interfaces;
+using API.Services;
 
 namespace API
 {
@@ -29,6 +31,10 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ITokenService, TokenService>();
+
+
+
             services.AddDbContext<DataContext>(options => 
             {options.UseSqlServer(_config.GetConnectionString("DatingAppDB"));
             
