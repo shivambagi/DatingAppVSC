@@ -7,3 +7,9 @@ dotnet dev-certs https --clean
 
 dotnet dev-certs https --trust
 -----------------------------------------------------------------------------------------------------
+"options": {
+            "ssl": true,
+            "sslCert": "./ssl/server.crt",
+            "sslKey": "./ssl/server.key",
+            "browserTarget": "client:build"
+          },
