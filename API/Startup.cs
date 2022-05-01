@@ -18,6 +18,7 @@ using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using API.Extensions;
 
 namespace API
 {
@@ -34,14 +35,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ITokenService, TokenService>();
-
-
-
-            services.AddDbContext<DataContext>(options => 
-            {options.UseSqlServer(_config.GetConnectionString("DatingAppDB"));
-            
-            });
+            services.AddApplicationServices(_config);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -53,17 +47,7 @@ namespace API
                     .AllowAnyMethod().WithOrigins("https://localhost:4200"));
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"])),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });
+            services.AddIdentityServices(_config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
