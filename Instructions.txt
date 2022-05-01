@@ -13,3 +13,10 @@ dotnet dev-certs https --trust
             "sslKey": "./ssl/server.key",
             "browserTarget": "client:build"
           },
+-------------------------------------------------------------------------------------------------------
+Debuggig API
+1) dotnet watch run
+2) In Run and debug tab, Select .Net Core Attach and select the proejct.exe 
+    in which you want to debug and hit play button
+3) Attach a debugger point and make a request.
+--------------------------------------------------------------------------------------------------------
