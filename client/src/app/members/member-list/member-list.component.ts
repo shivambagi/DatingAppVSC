@@ -20,7 +20,6 @@ export class MemberListComponent implements OnInit {
   loadMembers(){
     this.memberService.getMembers().subscribe(members => {
       this.members = members;
-      console.log(members);
     })
   }
 
