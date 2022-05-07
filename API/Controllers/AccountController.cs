@@ -10,6 +10,7 @@ using API.Entities;
 using API.DTOs;
 using Microsoft.EntityFrameworkCore;
 using API.Interfaces;
+using AutoMapper;
 
 namespace API.Controllers
 {    
@@ -17,10 +18,12 @@ namespace API.Controllers
     {
         private readonly DataContext _context;
         private readonly ITokenService _tokenservice;
-        public AccountController(DataContext context, ITokenService tokenservice)
+        private readonly IMapper _mapper;
+        public AccountController(DataContext context, ITokenService tokenservice,IMapper mapper)
         {
             _context = context;
             _tokenservice = tokenservice;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
@@ -30,24 +33,25 @@ namespace API.Controllers
             {
                 return BadRequest("Username is taken");
             }
-            using (var hmac = new HMACSHA512())
+
+            var user = _mapper.Map<AppUser>(registerDTO);
+
+            using var hmac = new HMACSHA512();
+
+            user.UserName = registerDTO.Username.ToLower();
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password));
+            user.PasswordSalt = hmac.Key;
+
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return new UserDTO
             {
-                var user = new AppUser
-                {
-                    UserName = registerDTO.Username.ToLower(),
-                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
-                    PasswordSalt = hmac.Key
-                };
-
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-
-                return new UserDTO
-                {
-                    Username = user.UserName,
-                    Token = _tokenservice.CreateToken(user)
-                };
-            }            
+                Username = user.UserName,
+                Token = _tokenservice.CreateToken(user),
+                KnownAs = user.KnownAs
+            };
         }
 
         [HttpPost("login")]
