@@ -2,13 +2,22 @@
     <h2 class="text-center text-primary">Sign Up</h2>
     <hr>
     <div class="form-group">
-        <input type="text" class="form-control" formControlName="username" placeholder="Username">
+        <input [class.is-invalid]='registerForm.get("username").errors && registerForm.get("username").touched' 
+                type="text" class="form-control" formControlName="username" placeholder="Username">
+        <div class="invalid-feedback">Please enter a username</div>
     </div>
     <div class="form-group mt-2">
-        <input type="password" class="form-control" formControlName="password" placeholder="Password">
+        <input [class.is-invalid]='registerForm.get("password").errors && registerForm.get("password").touched'
+                type="password" class="form-control" formControlName="password" placeholder="Password">
+        <div *ngIf='registerForm.get("password").hasError("required")' class="invalid-feedback">Please enter password</div>
+        <div *ngIf='registerForm.get("password").hasError("minlength")' class="invalid-feedback">Password should be min 4 characters</div>
+        <div *ngIf='registerForm.get("password").hasError("maxlength")' class="invalid-feedback">Password should be max 8 characters</div>
     </div>
     <div class="form-group mt-2">
-        <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+        <input [class.is-invalid]='registerForm.get("confirmPassword").errors && registerForm.get("confirmPassword").touched' 
+                type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+        <div *ngIf='registerForm.get("confirmPassword").hasError("required")' class="invalid-feedback">Please confirm your password</div>
+        <div *ngIf='registerForm.get("confirmPassword").hasError("isMatching")' class="invalid-feedback">Passwords should be matching</div>
     </div>
     <div class="form-group text-center mt-2">
         <button class="btn btn-success" style="margin-right: 10px;" type="submit">Submit</button>
