@@ -44,6 +44,10 @@ namespace API.Data
             query = query.Where(u => u.UserName != userParams.CurrentUsername);
             query = query.Where(u => u.Gender == userParams.Gender);
 
+            var mindob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+            var maxdob = DateTime.Today.AddYears(-userParams.MinAge);
+            query = query.Where(u => u.DateOfBirth >= mindob && u.DateOfBirth <= maxdob);
+
             return await PagedList<MemberDTO>
                 .CreateAsync(query.ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).AsNoTracking()
                 , userParams.PageNumber, userParams.PageSize);
