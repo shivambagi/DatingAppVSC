@@ -10,8 +10,10 @@ using API.Entities;
 using API.DTOs;
 using API.Helpers;
 
+
 namespace API.Controllers
 {
+    [Authorize]
     public class LikesController : BaseApiController
     {
         private readonly IUserRepository _userRepository;
