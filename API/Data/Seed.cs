@@ -20,10 +20,7 @@ namespace API.Data
             var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
             foreach (var user in users)
             {
-                using var hmac = new HMACSHA512();
                 user.UserName = user.UserName.ToLower();
-                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("test"));
-                user.PasswordSalt = hmac.Key;
 
                 context.Users.Add(user);
             }
